@@ -2,20 +2,26 @@
 Author: sweetcoffee qq791227132@gmail.com
 Date: 2022-04-28 22:20:46
 LastEditors: sweetcoffee qq791227132@gmail.com
-LastEditTime: 2022-09-14 00:37:21
+LastEditTime: 2022-11-24 10:07:19
 FilePath: /python_code/tools/fit_result_error.py
 Github: https://github.com/sweetcoffee520
 Description: 
 Copyright (c) 2022 by sweetcoffee qq791227132@gmail.com, All Rights Reserved.
 '''
 from . import fit_function
+from . import time_transfer as tt
 import numpy as np
+import pandas as pd
 from scipy.optimize import curve_fit
 
 def line_fit(x,y):
     """计算趋势项拟合的结果及其误差
 
     """
+    if isinstance(x,pd.DatetimeIndex):
+        x = tt.dateseries_to_timeseries(x)
+    else:
+        pass
     p = [1,1]
     popt,pcov = curve_fit(fit_function.line_trend,x,y,p0=p)
     # 1 sigma: 68.3% ; 2 sigma: 95.4%; 3 sigma: 99.7%，此处取2sigma，即95.4%的置信水平
@@ -32,6 +38,10 @@ def annual_season_fit(x,y,*std):
         para_error(trend_std,Amplitudel_std,Amplitude2_std,Phase1_std,Phase2_std);Amplitude1_std:周年振幅误差,Amplitude2_std:半周年振幅误差,Phase1_std:周年相位误差,Phase2_std:半周年相位误差
 
     """
+    if isinstance(x,pd.DatetimeIndex):
+        x = tt.dateseries_to_timeseries(x)
+    else:
+        pass
     if len(std) == 0:
         p = [1,1,1,1,1,1]
         popt,pcov = curve_fit(fit_function.annual_seasonal_trend,x,y,p0=p)

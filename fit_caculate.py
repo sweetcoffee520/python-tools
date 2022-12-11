@@ -2,15 +2,21 @@
 Author: sweetcoffee qq791227132@gmail.com
 Date: 2022-04-28 22:20:46
 LastEditors: sweetcoffee qq791227132@gmail.com
-LastEditTime: 2022-10-16 13:51:37
+LastEditTime: 2022-11-24 10:07:40
 FilePath: /python_code/tools/fit_caculate.py
 Description: 
 
 Copyright (c) 2022 by sweetcoffee qq791227132@gmail.com, All Rights Reserved.
 '''
 import numpy as np
+import pandas as pd
+from . import time_transfer as tt
 
 def fit_caculate_line(t,y):
+    if isinstance(t,pd.DatetimeIndex):
+        t = tt.dateseries_to_timeseries(t)
+    else:
+        pass
     A = np.zeros((len(y),2))
     A[:,0] = np.ones((len(y)))
     A[:,1] = t
@@ -26,6 +32,10 @@ def fit_caculate_line(t,y):
 
 def fit_caculate_line_annual(t,y,*std):
 
+    if isinstance(t,pd.DatetimeIndex):
+        t = tt.dateseries_to_timeseries(t)
+    else:
+        pass
     # 等权最小二乘
     if len(std)==0:
         A = np.zeros((len(y),6))

@@ -2,7 +2,7 @@
 Author: sweetcoffee qq791227132@gmail.com
 Date: 2022-11-05 18:04:34
 LastEditors: sweetcoffee qq791227132@gmail.com
-LastEditTime: 2022-11-17 17:49:30
+LastEditTime: 2022-12-05 21:46:27
 FilePath: /python_code/tools/spatial_distribution.py
 Github: https://github.com/sweetcoffee520
 Description: 
@@ -10,6 +10,8 @@ Copyright (c) 2022 by sweetcoffee qq791227132@gmail.com, All Rights Reserved.
 '''
 from tools import fit_result_error as fre
 import numpy as np
+import pandas as pd 
+from tools import time_transfer as tt
 
 def spatial_trend_amp(time,grd):
     """空间趋势,周年和版周年振幅
@@ -21,6 +23,10 @@ def spatial_trend_amp(time,grd):
     Returns:
         (tuple): (trend,amp,semiamp)
     """
+    if isinstance(time,pd.DatetimeIndex):
+        time = tt.dateseries_to_timeseries(time)
+    else:
+        pass
     shape = np.shape(grd)
     trend = np.zeros((shape[0],shape[1]))
     amp = np.zeros((shape[0],shape[1]))

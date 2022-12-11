@@ -2,7 +2,7 @@
 Author: sweetcoffee qq791227132@gmail.com
 Date: 2022-04-28 22:20:46
 LastEditors: sweetcoffee qq791227132@gmail.com
-LastEditTime: 2022-11-15 15:30:44
+LastEditTime: 2022-12-10 11:09:01
 FilePath: /python_code/tools/extract_function.py
 Github: https://github.com/sweetcoffee520
 Description: 
@@ -79,7 +79,7 @@ def extract_mask_from_grd(grd,lat,lon,lat_range,lon_range=None):
     """对grd大小的格网提取mask,有效值赋1
 
     Args:
-        grd (array): 零数组
+        grd (array): 需要mask的数组
         res_lonlat (float): 分辨率
         lat_range (tuple): 纬度范围
         lon_range (tuple): 经度范围
@@ -98,5 +98,30 @@ def extract_mask_from_grd(grd,lat,lon,lat_range,lon_range=None):
         lonmin = np.min(lon_loc[0])
         lonmax = np.max(lon_loc[0])
         grdm[latmin:latmax+1,lonmin:lonmax+1] = 1
+
+    return grdm
+
+def set_mask(grd,lat,lon,values,lat_range,lon_range=None):
+    """对指定范围内的值设为指定值
+
+    Args:
+        grd (_type_): _description_
+        lat (array):
+        lon (array):
+        values (int): 指定mask的值
+        lat_range (_type_): _description_
+        lon_range (_type_, optional): _description_. Defaults to None.
+    """
+    grdm = grd.copy()
+    lat_loc = np.where((lat>=lat_range[0])&(lat<=lat_range[1]))
+    lat_min = np.min(lat_loc)
+    lat_max = np.max(lat_loc)
+    if lon_range is None:
+        grdm[lat_min:lat_max+1,...] = values
+    else:
+        lon_loc = np.where((lon>=lon_range[0])&(lon<=lon_range[1]))
+        lon_min = np.min(lon_loc)
+        lon_max = np.max(lon_loc)
+        grdm[lat_min:lat_max+1,lon_min:lon_max+1,...] = values
 
     return grdm

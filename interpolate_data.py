@@ -2,7 +2,7 @@
 Author: sweetcoffee qq791227132@gmail.com
 Date: 2022-07-11 15:40:29
 LastEditors: sweetcoffee qq791227132@gmail.com
-LastEditTime: 2022-10-04 20:56:58
+LastEditTime: 2022-12-08 01:38:35
 FilePath: /python_code/tools/interpolate_data.py
 Github: https://github.com/sweetcoffee520
 Description: 
@@ -26,6 +26,8 @@ def interpolate_data(data, lat, lon, lat_interp, lon_interp,method='linear'):
     Returns:
         _type_: _description_
     """
+    lon[lon<0] = lon[lon<0]+360
+    lon_interp[lon_interp<0] = lon_interp[lon_interp<0]+360
     shapenum = data.ndim
     xv,yv = np.array(np.meshgrid(lon,lat))
     point = np.c_[xv.flatten(),yv.flatten()]

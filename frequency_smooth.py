@@ -12,7 +12,7 @@ import numpy as np
 import scipy.fft as fft
 from scipy.signal import windows
 
-def gaussian_smooth(x,n):
+def gaussian_smooth_frequency(x,n):
     """频域的高斯平滑
 
     Args:
